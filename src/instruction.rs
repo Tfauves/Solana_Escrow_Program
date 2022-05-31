@@ -45,6 +45,7 @@ pub enum EscrowInstruction {
 impl EscrowInstruction {
     /// Unpacks a byte buffer into a [EscrowInstruction](enum.EscrowInstruction.html).
     pub fn unpack(input: &[u8]) -> Result<Self, ProgramError> {
+        // ok_or converts an option into a result
         let (tag, rest) = input.split_first().ok_or(InvalidInstruction)?;
 
         Ok(match tag {
@@ -61,6 +62,7 @@ impl EscrowInstruction {
     fn unpack_amount(input: &[u8]) -> Result<u64, ProgramError> {
         let amount = input
             .get(..8)
+            // try_into converts the slice into an array
             .and_then(|slice| slice.try_into().ok())
             .map(u64::from_le_bytes)
             .ok_or(InvalidInstruction)?;

@@ -202,6 +202,7 @@ impl Processor {
             &[&pda],
         )?;
         msg!("Calling the token program to close pda's temp account...");
+        // Here we use the invoke_signed function to allow the PDA to sign something. 
         invoke_signed(
             &close_pdas_temp_acc_ix,
             &[
